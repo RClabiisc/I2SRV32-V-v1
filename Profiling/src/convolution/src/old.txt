@@ -1,0 +1,15 @@
+#include "header.h"
+
+int perceptron(float input[])
+{
+    float output_layer[OUTPUT_SIZE];
+    float temp[OUTPUT_SIZE];
+    int output;
+    //Compute Forward Path
+    vmatmul(input,w1,MAXPOOL2_DIM1*MAXPOOL2_DIM2*MAXPOOL2_DIM3, OUTPUT_SIZE, temp);    //w1*x
+    vadd2(temp,b1,OUTPUT_SIZE,output_layer);              //w1*b + b
+    
+    // Find the Maximum Probability
+    output = get_max_idx(output_layer);
+    return output;
+}

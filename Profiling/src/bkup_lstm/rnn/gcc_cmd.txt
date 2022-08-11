@@ -1,0 +1,1 @@
+gcc -Wall -g -o x86 header.h w_ih_1.c w_fh_1.c w_oh_1.c w_gh_1.c w_ix_2.c w_fx_2.c w_ox_2.c w_gx_2.c w_ih_2.c w_fh_2.c w_oh_2.c w_gh_2.c b_ix_1.c b_fx_1.c b_ox_1.c b_gx_1.c b_ix_2.c b_fx_2.c b_ox_2.c b_gx_2.c w3.c w4.c b3.c b4.c input.c util.c gate.c lstm.c init.c perceptron.c free_mem.c main.c

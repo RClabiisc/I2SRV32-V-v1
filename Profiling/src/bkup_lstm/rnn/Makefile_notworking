@@ -1,0 +1,42 @@
+CC=gcc 
+CFLAGS=-Wall
+
+SRCS = w_ih_1.c w_fh_1.c w_oh_1.c w_gh_1.c \
+w_ix_2.c w_fx_2.c w_ox_2.c w_gx_2.c \
+w_ih_2.c w_fh_2.c w_oh_2.c w_gh_2.c \
+b_ix_1.c b_fx_1.c b_ox_1.c b_gx_1.c \
+b_ix_2.c b_fx_2.c b_ox_2.c b_gx_2.c \
+w3.c w4.c b3.c b4.c input.c \
+util.c gate.c lstm.c init.c perceptron.c free_mem.c main.c header.h
+#Define Object Files
+OBJS = $(SRCS:.c:.o)
+
+#Define Executable File say x86
+MAIN = x86
+
+#
+# The following part of the makefile is generic; it can be used to
+# build any executable just by changing the definitions above and by
+# deleting dependencies appended to the file from 'make depend'
+#
+
+.PHONY: depend clean
+
+all: $(MAIN)
+	@echo Simple COmpiler named x86 is compiled
+
+$(MAIN):$(OBJS)
+	$(CC) $(CFLAGS) -o $(MAIN) $(OBJS) 
+
+# this is a suffix replacement rule for building .o's from .c's
+# it uses automatic variables $<: the name of the prerequisite of
+# the rule(a .c file) and $@: the name of the target of the rule (a .o file) 
+# (see the gnu make manual section about automatic variables)
+
+.c.o:
+	$(CC) $(CFLAGS) -c $<  -o $@
+
+#depend: $(SRCS)
+#	makedepend $(SRCS) $^
+
+# DO NOT DELETE THIS LINE -- make depend needs it

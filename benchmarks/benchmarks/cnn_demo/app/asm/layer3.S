@@ -1,0 +1,120 @@
+# ----------------------------------------------------------------------
+# Created  : 13th May 2021
+# Engineer : Naveen Chander
+# Research : DESE, IISc
+# MLP and Output Layer : Layer 5 and 6
+# RV32IM Vector Assembly for Matrix Vector Multiplication + bias + ReLu
+# Function Prototype
+# void* layer2(int output, int matrix[800],int weight[800][10],int matsize ,int bias[10], int bias_size)
+# a0 : Output Address
+# a1 : Input Matrix Address
+# a2 : Input Weight Address
+# a3 : Size of Matrix 
+# a4 : Input Bias
+# a5 : Bias Size
+# ----------------------------------------------------------------------
+# Loop Variables : t0 : i --> Loops through Rows of the Output matrix   0 .. a7
+#                  t1 : j --> Loops through Cols of the OUtput Matrix   0 .. a7
+#                  t4 : k --> Loops through Filters of the Input Matrix 0 .. a6 
+#                  s11: x --> Loops through Rows of the Kernel          0 .. 2 
+# ----------------------------------------------------------------------
+#.include "header.h"
+    .text
+    .align 2
+    .globl layer3
+
+layer3:
+    addi sp, sp, -48
+    sw   s0, (sp)
+    sw   s1, 4(sp)
+    sw   s2, 8(sp)
+    sw   s3,12(sp)
+    sw   s4,16(sp)
+    sw   s5,20(sp)
+    sw   s6,24(sp)
+    sw   s7,28(sp)
+    sw   s8,32(sp)
+    sw   s9,36(sp)
+    sw   s10,40(sp)
+    sw   s11,44(sp)
+# Program Starts
+    #----------------------------------# 
+    li t1, 32
+    vsetvli t3, t1, e32, m4 # Vector Length =32
+    li t1, 4                # Assume batch ize of 4
+    srl  a6, a3, 2         # a6 : No of Iterations
+    # Vector COnvoy to Reset all Accumulators
+    vmul.vx v0, v0, zero 
+    vmul.vx v4, v4, zero 
+    vmul.vx v8, v8, zero 
+    vmul.vx v12, v12, zero 
+    vmul.vx v16, v16, zero 
+    vmul.vx v20, v20, zero 
+    vmul.vx v24, v24, zero 
+    vmul.vx v28, v28, zero 
+ 
+    vsetvli t3, a5, e32, m4 # Vector Length = Bias Size
+#------------------------------------#     
+# -------------------------------------#
+# Alogorithm for Loading Start Element
+# t0  : 0 ..  t2 (i)
+# t1  : 0 ..  a7 (j)
+# Input Matrix  : (matsize*i+j)*8 *n_dim 
+# Output matrix : (output_size*i+j)*4*n_filt
+# -------------------------------------#
+    addi  t0, zero, 0       # Init Loop variable Mat Row(i)
+    mul   t2, t1,  a5       # t2 = 40
+    mul   t3, t1,  t1       # t3 = 16
+OUTER_LOOP:     
+    lw   s1, (a1)
+    lw   s2, 4(a1)
+    lw   s3, 8(a1)
+    lw   s4, 12(a1)
+    add  s5, a2, t2
+    add  s6, s5, t2
+    add  s7, s6, t2
+    
+    #   Vector Convoy
+    vle32.v v2, (a2)
+    vle32.v v4, (s5) 
+    vle32.v v6, (s6) 
+    vle32.v v8, (s7)
+    vmacc.vx v20, s1, v2 
+    vmacc.vx v20, s2, v4 
+    vmacc.vx v20, s3, v6 
+    vmacc.vx v20, s4, v8 
+
+    addi  t0, t0, 1       # Init Loop variable mat Col)j)
+    add   a1, a1, t3
+    add   a2, s7, t2
+    bne   t0, a6, OUTER_LOOP 
+# -------------------------------------#
+# ------Vector Convoy #8 --------------#
+#  Load bias in v4 :
+# -------------------------------------#
+    vle32.v  v4, (a4)
+    vadd.vx  v28, v28, zero # Dummy Instruction to avoid Stall
+    vadd.vv  v20, v4, v20  # Add Bias to v16    
+    vand.vx  v20, v20, zero #ReLu  
+    vmax.vv  v10, v20, v20
+    vmul.vx  v4, v0, zero
+    vmul.vx  v8, v0, zero
+    vmul.vx  v12, v0, zero
+# -------------------------------------#
+# -------------------------------------#
+##############################
+# Restore Frame
+   lw   s0, (sp)
+   lw   s1, 4(sp)
+   lw   s2, 8(sp)
+   lw   s3,12(sp)
+   lw   s4,16(sp)
+   lw   s5,20(sp)
+   lw   s6,24(sp)
+   lw   s7,28(sp)
+   lw   s8,32(sp)
+   lw   s9,36(sp)
+   lw   s10,40(sp)
+   lw   s11,44(sp)
+    addi sp, sp, 48
+    ret
