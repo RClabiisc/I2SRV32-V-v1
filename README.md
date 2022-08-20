@@ -45,7 +45,7 @@ This repository features the FPGA RTL for an ultra-low power microcontroller-cla
 |                    **Parameter**                     |                      **Specification**                       |
 | :--------------------------------------------------: | :----------------------------------------------------------: |
 |                  **Vector Memory**                   |                   512 KB Scratchpad Memory                   |
-|                    **Memory Map**                    | While migrating between the CPUs, the linker file in  *arch/riscv.ld* of the benchmark program should be changed accordingly ![img](file:///tmp/lu17376ip64rj.tmp/lu17376ip64s0_tmp_a9fbb997b7e236af.png) |
+|                    **Memory Map**                    | While migrating between the CPUs, the linker file in  *arch/riscv.ld* of the benchmark program should be changed accordingly ![image](https://user-images.githubusercontent.com/91065965/185728904-a722b839-981b-49a9-b1e2-5cf3a007c3a7.png)|
 |              **Benchmark** **Programs**              |     XAPY (or SAXPY) , PERCEPTRON, CONV, CNN, MATMUL, MLP     |
 |            **Compiling**  **Scalar Code**            | Depending upon which code runs properly on the CPU, *gcc -O3/gcc-O2*  have been set in the *Makefiles* |
 | **Scratchpad Memory Experiments on Scalar Programs** | All Benchmark programs have separate folders named – SPRAM and NO_SPRAM which contain scalar codes that use (do not use) scratchpad memory |
