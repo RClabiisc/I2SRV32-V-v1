@@ -24,13 +24,12 @@ This repository features the FPGA RTL for an ultra-low power microcontroller-cla
 3. ISA Support: RISC-V Vector ISA 1.0 + Few custom instructions.
 
 4. Microarchitecture
-
-5. 1. Single -core, single-issue, in-order, 5-stage pipeline.
-   2. Separate Instructions and Data Cache (8KB, 2-way Set associative).
-   3. Main Memory : 1MB scalar memory + 512kB Vector Scratchpad memory.
-   4. Main memory and Peripherals are connected to the core through Wishbone Bus.
-   5. Peripheral: UART 1 port (with Flow Control) taken from http://www.opencores.org/cores/uart16550/.
-   6. Vector Accelerator: Systolic Array based 8-lane Integer vector unit with 512kB Scratchpad memory.
+   * Single -core, single-issue, in-order, 5-stage pipeline.
+   * Separate Instructions and Data Cache (8KB, 2-way Set associative).
+   * Main Memory : 1MB scalar memory + 512kB Vector Scratchpad memory.
+   * Main memory and Peripherals are connected to the core through Wishbone Bus.
+   * Peripheral: UART 1 port (with Flow Control) taken from http://www.opencores.org/cores/uart16550/.
+   * Vector Accelerator: Systolic Array based 8-lane Integer vector unit with 512kB Scratchpad memory.
 
 6. Clock : 50 MHz on Xilinx Vertex-7 FPGA.
 
