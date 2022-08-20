@@ -6,4 +6,3 @@ In command prompt type pwsh to launch powershell
 To compile the code command is 
     gcc -o .\demo.exe .\uart_send.c .\img.c .\expected_output.c
 
-See DemoVideo for more details.
