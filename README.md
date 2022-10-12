@@ -38,9 +38,10 @@ This repository features the FPGA RTL for an ultra-low power microcontroller-cla
 8. Can be used as a RISC-V(G) core by disabling the vector unit to support backward compatibility.
 
 ## Supported Vector Instructions
-/home/rclab/Downloads/instructions.png 
+![instructions](https://user-images.githubusercontent.com/91065965/195357420-9f30181f-e480-4b57-a64a-edf2cfbb0901.png)
 
 ## Design Space
+
 
 |                    **Parameter**                     |                      **Specification**                       |
 | :--------------------------------------------------: | :----------------------------------------------------------: |
